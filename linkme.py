@@ -33,6 +33,8 @@ CHROME_DRIVER_LOCATION = r""
 # LinkedIn credentials
 USERNAME = ""
 PASSWORD = ""
+# Enter correct school or group name.
+SCHOOL = 'Springboard'
 
 check_for_login_data(USERNAME, PASSWORD)
 
@@ -86,19 +88,22 @@ class LinkMeBatch(unittest.TestCase):
             raise ValueError("Login credentials error.")
 
         # Send connect request to students.
-        for name in students:
-            driver.get(name)
+        for link in students:
+            driver.get(link)
             try:
+                name = driver.find_element_by_css_selector("ul.pv-top-card--list.inline-flex.align-items-center > li.inline.break-words").text
+                name = name.split(' ')[0]
+                message = MESSAGE.format(name=name, school=SCHOOL)
                 driver.find_element_by_css_selector("button.pv-s-profile-actions.pv-s-profile-actions--connect").click()
                 driver.find_element_by_css_selector("div.artdeco-modal__actionbar > button[aria-label='Add a note']").click()
-                driver.find_element_by_id("custom-message").send_keys(MESSAGE)
+                driver.find_element_by_id("custom-message").send_keys(message)
                 driver.find_element_by_css_selector("div.artdeco-modal__actionbar > button[aria-label='Done']").click()
             except NoSuchElementException as e:
-                print(f"\n{name} Webpage had no connect button. Selenium can't click connect.\n{e.args[0]}\n")
+                print(f"\n{link} Webpage had no connect button. Selenium can't click connect.\n{e.args[0]}\n")
             
-            # write name to file of requests that have already been sent.
-            with open("connect_req_sent.txt", "a") as f:
-                f.write(f'{name}\n')
+            # write link to file of requests that have already been sent.
+            with open("personal/connect_req_sent.txt", "a") as f:
+                f.write(f'\n{link}')
             
         driver.close()
     
