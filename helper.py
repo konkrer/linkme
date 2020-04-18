@@ -1,3 +1,6 @@
+import re
+
+
 def check_for_login_data(USERNAME: str, PASSWORD: str) -> None:
     """Make sure user entered their login data."""
     if not USERNAME or not PASSWORD:
@@ -10,10 +13,28 @@ def check_for_login_data(USERNAME: str, PASSWORD: str) -> None:
         raise ValueError("Missing Login Info!")
 
 
+def url_check(lst):
+    """Make URL's conform to standard pattern or omit from list."""
+    out = []
+    for url in lst:
+        url.strip()
+        if re.match(r"https://www.linkedin.com/in/", url):
+            out.append(url)
+        else:
+            if re.match(r"http://www.linkedin.com/in/", url):
+                end = url.split('//')[1]
+                out.append(f"https://{end}")
+            elif re.match(r"www.linkedin.com/in/", url):
+                out.append(f'https://{url}')
+            elif re.match(r"linkedin.com/in/", url):
+                out.append(f'https://www.{url}')
+    return out
+
+
 MESSAGE = "Hello {name}, fellow {school} student! I'm hoping to \
 connect with other students to grow my network. Please connect \
-with me if you are still trying to grow yours as well. Thanks! 💫👩‍🎓👩‍💻👨‍💻👨‍🎓💫 \
-(sent by 🐍)"
+with me if you are still trying to grow yours as well. Thanks! \
+(sent by Python)"
 
 
 ASCII_ART = r"""

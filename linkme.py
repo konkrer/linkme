@@ -2,7 +2,9 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 import unittest
 
-from helper import *
+from helper import (
+    check_for_login_data, url_check, MESSAGE, ASCII_ART
+    )
 
 
 """ 
@@ -31,8 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # download chromedriver to local directory an enter local path below.
 CHROME_DRIVER_LOCATION = r""
 # LinkedIn credentials
-USERNAME = ""
-PASSWORD = ""
+USERNAME = "asdasfasd"
+PASSWORD = "asdfsafd"
 # Enter correct school or group name.
 SCHOOL = 'Springboard'
 
@@ -40,9 +42,11 @@ check_for_login_data(USERNAME, PASSWORD)
 
 # get list of students
 with open('students.txt') as f:
-    # read, remove byte order mark from Google Docs, split, then strip.
+    # read, remove Byte order mark from Google Docs, split, then strip.
     students = f.read().strip('ï»¿').splitlines()
-    students = [x.strip() for x in students]
+
+# make urls conform to standard https://www.linkedin.com/in/ pattern
+students = url_check(students)
 
 # get list of students that already have been sent requests.
 with open("connect_req_sent.txt") as f:
@@ -114,8 +118,9 @@ class LinkMeBatch(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    if students: 
-        unittest.main()
+    if students:
+        pass
+        # unittest.main()
     else:
         print('\n')
         print('  No new students in students list!  '.center(100, '*'))
