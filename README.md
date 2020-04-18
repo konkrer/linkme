@@ -30,12 +30,13 @@ times as new names are added.
 ### Note on chromedriver:
 
 Go to https://sites.google.com/a/chromium.org/chromedriver/downloads and download
-chromedriver for the version of Chrome you use. Unzip file and place in the linkme  
+chromedriver for the version of Chrome you use. Unzip file and place in the linkme
 folder. Set CHROME_DRIVER_LOCATION variable in linkme.py to the local path 
 of the driver file.
 
 For example, leave the driver in the folder it was originally in when unzipped
-and set variable: CHROME_DRIVER_LOCATION = r"chromedriver_win32\chromedriver.exe".
+and set variable: 
+CHROME_DRIVER_LOCATION = r"chromedriver_win32\chromedriver.exe".
 
 There may be other ways to install chromedriver globally, but this method works.
 
