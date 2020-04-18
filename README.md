@@ -1,11 +1,16 @@
 # LinkMe LinkedIn Connection Automation Tool
 
-This command-line Python tool automates the process of logging into LinkedIn
-and submitting "Connect" to a list of LinkedIn profile URLs. This tool is
-intended for students and the like who wish to grow their network from a list
-of fellow students also looking to connect. A text document such as a Google
-Docs file can hold the list of LinkedIn profile URLs and is downloaded to the
-project folder for the script to use.
+This command-line Python tool automates the process of logging into LinkedIn,
+visiting profiles, submitting "Connect", and leaving a friendly message to a list 
+of LinkedIn profile URLs. 
+
+This tool is intended for students and the like who wish to grow their network 
+from a list of fellow individuals also looking to connect. A text document such as a 
+Google Docs file can hold the list of LinkedIn profile URLs and is manually downloaded 
+to the project folder for the script to use. A list of previously visited profiles 
+is kept and those profiles are skipped so the same source list can be run multiple
+times as new names are added.
+
 
 ## Quick Start 
 
@@ -25,11 +30,14 @@ project folder for the script to use.
 ### Note on chromedriver:
 
 Go to https://sites.google.com/a/chromium.org/chromedriver/downloads and download
-chromedriver for the version of Chrome you use. Unzip file and place in project 
-folder and set CHROME_DRIVER_LOCATION to the local path to the driver file.
+chromedriver for the version of Chrome you use. Unzip file and place in the linkme  
+folder. Set CHROME_DRIVER_LOCATION variable in linkme.py to the local path 
+of the driver file.
 
-In my setup, for example, I left the driver in the folder it was originally in
-and set my CHROME_DRIVER_LOCATION = r"chromedriver_win32\chromedriver.exe".
+For example, leave the driver in the folder it was originally in when unzipped
+and set variable: CHROME_DRIVER_LOCATION = r"chromedriver_win32\chromedriver.exe".
+
+There may be other ways to install chromedriver globally, but this method works.
 
 
 

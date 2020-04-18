@@ -7,9 +7,13 @@ from helper import *
 
 """ 
 ******************************************************************************************************************************************
-LinkMe is a super simple python script that uses Selenium to help you connect to a list of linkedIn profiles at once.
+LinkMe is a python script that leverages Selenium testing framework to help users grow their LinkedIn network.
+If a user has a text list of LinkedIn profile URL's this script will visit each one, click the connect button, and leave a friendly message.
+A list of previously visited profiles is kept and those profiles are skipped so the same source list can be run multiple times as new
+names are added.
 Copyright (C) 2019  Richard Iannucelli
 This script is based off of Keeping-it-Green - Copyright (C) 2019  Subhajeet Mukherjee. https://github.com/bootkernel/Keeping-It-Green
+
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2

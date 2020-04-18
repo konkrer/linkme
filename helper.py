@@ -10,12 +10,13 @@ def check_for_login_data(USERNAME: str, PASSWORD: str) -> None:
         raise ValueError("Missing Login Info!")
 
 
-MESSAGE = "Hi, I'm a fellow Springboard student hoping to\
-connect with other students to grow my network. Please connect\
-with me if you are still trying to grow yours as well. Thanks! 🐍👩‍🎓👩‍💻👨‍💻👨‍🎓💫"
+MESSAGE = "Hello fellow Springboard student! I'm hoping to \
+connect with other students to grow my network. Please connect \
+with me if you are still trying to grow yours as well. Thanks! 💫👩‍🎓👩‍💻👨‍💻👨‍🎓💫 \
+(sent by 🐍)"
 
 
-ASCII_ART ="""
+ASCII_ART = r"""
                                                                                                       
                                                  JJ                                                   
         000j            QLL                    CJJJ             XUU       \YY                         
