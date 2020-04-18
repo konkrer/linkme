@@ -1,0 +1,5 @@
+.vscode
+debug.log
+linkme_2.py
+/chromedriver*
+/personal
