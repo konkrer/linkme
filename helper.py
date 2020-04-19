@@ -32,14 +32,12 @@ def url_check(lst):
     return out
 
 
-def rand_sleep():
-    """Function to return random value between 5 and 15"""
+def rand_sleep(switch):
+    """Function to return random value between 2-7 when
+    switch is true otherwise random value between 5-15."""
+    if switch:
+        return randrange(2, 8)
     return randrange(5, 16)
-
-
-def rand_sleep2():
-    """Function to return random value between 3 and 8"""
-    return randrange(2, 8)
 
 
 MESSAGE = "Hello {name}, fellow {school} student! I'm hoping to \

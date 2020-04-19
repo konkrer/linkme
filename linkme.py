@@ -9,7 +9,6 @@ from helper import (
     MESSAGE,
     ASCII_ART,
     rand_sleep,
-    rand_sleep2,
 )
 
 
@@ -103,7 +102,7 @@ class LinkMeBatch(unittest.TestCase):
 
         # Send connect request to students.
         for link in students:
-            sleep(rand_sleep())
+            sleep(rand_sleep(0))
             driver.get(link)
 
             try:
@@ -113,18 +112,18 @@ class LinkMeBatch(unittest.TestCase):
                 name = name.split(" ")[0]
                 message = MESSAGE.format(name=name, school=SCHOOL)
 
-                sleep(rand_sleep2())
+                sleep(rand_sleep(1))
                 driver.find_element_by_css_selector(
                     "button.pv-s-profile-actions.pv-s-profile-actions--connect"
                 ).click()
 
-                sleep(rand_sleep2())
+                sleep(rand_sleep(1))
                 driver.find_element_by_css_selector(
                     "div.artdeco-modal__actionbar > button[aria-label='Add a note']"
                 ).click()
                 driver.find_element_by_id("custom-message").send_keys(message)
 
-                sleep(rand_sleep2())
+                sleep(rand_sleep(1))
                 driver.find_element_by_css_selector(
                     "div.artdeco-modal__actionbar > button[aria-label='Done']"
                 ).click()
