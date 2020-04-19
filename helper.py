@@ -1,15 +1,16 @@
 import re
+from random import randrange
 
 
 def check_for_login_data(USERNAME: str, PASSWORD: str) -> None:
     """Make sure user entered their login data."""
     if not USERNAME or not PASSWORD:
-        print('\n')
-        if not USERNAME:       
-            print('> Missing Username! <'.center(40, '-'))   
+        print("\n")
+        if not USERNAME:
+            print("> Missing Username! <".center(40, "-"))
         else:
-            print('> Missing Password! <'.center(40, '-'))
-        print('\n')
+            print("> Missing Password! <".center(40, "-"))
+        print("\n")
         raise ValueError("Missing Login Info!")
 
 
@@ -22,13 +23,23 @@ def url_check(lst):
             out.append(url)
         else:
             if re.match(r"http://www.linkedin.com/in/", url):
-                end = url.split('//')[1]
+                end = url.split("//")[1]
                 out.append(f"https://{end}")
             elif re.match(r"www.linkedin.com/in/", url):
-                out.append(f'https://{url}')
+                out.append(f"https://{url}")
             elif re.match(r"linkedin.com/in/", url):
-                out.append(f'https://www.{url}')
+                out.append(f"https://www.{url}")
     return out
+
+
+def rand_sleep():
+    """Function to return random value between 5 and 15"""
+    return randrange(5, 16)
+
+
+def rand_sleep2():
+    """Function to return random value between 3 and 8"""
+    return randrange(3, 9)
 
 
 MESSAGE = "Hello {name}, fellow {school} student! I'm hoping to \

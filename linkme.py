@@ -1,10 +1,16 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 import unittest
+from time import sleep
 
 from helper import (
-    check_for_login_data, url_check, MESSAGE, ASCII_ART
-    )
+    check_for_login_data,
+    url_check,
+    MESSAGE,
+    ASCII_ART,
+    rand_sleep,
+    rand_sleep2,
+)
 
 
 """ 
@@ -36,14 +42,14 @@ CHROME_DRIVER_LOCATION = r""
 USERNAME = ""
 PASSWORD = ""
 # Enter correct school or group name.
-SCHOOL = 'Springboard'
+SCHOOL = "Springboard"
 
 check_for_login_data(USERNAME, PASSWORD)
 
 # get list of students
-with open('students.txt') as f:
+with open("students.txt") as f:
     # read, remove Byte order mark from Google Docs, split, then strip.
-    students = f.read().strip('ï»¿').splitlines()
+    students = f.read().strip("ï»¿").splitlines()
 
 # make urls conform to standard https://www.linkedin.com/in/ pattern
 students = url_check(students)
@@ -57,8 +63,10 @@ students = [x for x in students if x and x not in sent]
 
 print(ASCII_ART)
 
+
 class LinkMeBatch(unittest.TestCase):
     """Test Class to perform batch LinkedIn connection requests on your behalf."""
+
     def setUp(self):
 
         # PATH to chromedriver
@@ -68,7 +76,7 @@ class LinkMeBatch(unittest.TestCase):
         self.driver.implicitly_wait(30)
         self.verificationErrors = []
         self.accept_next_alert = True
-    
+
     def test_linkme_test_case(self):
         driver = self.driver
         driver.get("https://linkedin.com/login")
@@ -79,42 +87,62 @@ class LinkMeBatch(unittest.TestCase):
 
         # YOUR_PASSWORD in login_field
         driver.find_element_by_id("password").send_keys(PASSWORD)
-        driver.find_element_by_css_selector("div.login__form_action_container > button[type='submit']").click()
-      
+        driver.find_element_by_css_selector(
+            "div.login__form_action_container > button[type='submit']"
+        ).click()
+
         self.driver.implicitly_wait(5)
 
         # make sure selenium logged in.
         try:
             driver.find_element_by_id("mynetwork-nav-item")
         except NoSuchElementException as e:
-            print('\n')
-            print(f'Login failed. Check Username and Password!'.center(60, '*'))
+            print("\n")
+            print(f"Login failed. Check Username and Password!".center(60, "*"))
             raise ValueError("Login credentials error.")
 
         # Send connect request to students.
         for link in students:
+            sleep(rand_sleep())
             driver.get(link)
+
             try:
-                name = driver.find_element_by_css_selector("ul.pv-top-card--list.inline-flex.align-items-center > li.inline.break-words").text
-                name = name.split(' ')[0]
+                name = driver.find_element_by_css_selector(
+                    "ul.pv-top-card--list.inline-flex.align-items-center > li.inline.break-words"
+                ).text
+                name = name.split(" ")[0]
                 message = MESSAGE.format(name=name, school=SCHOOL)
-                driver.find_element_by_css_selector("button.pv-s-profile-actions.pv-s-profile-actions--connect").click()
-                driver.find_element_by_css_selector("div.artdeco-modal__actionbar > button[aria-label='Add a note']").click()
+
+                sleep(rand_sleep2())
+                driver.find_element_by_css_selector(
+                    "button.pv-s-profile-actions.pv-s-profile-actions--connect"
+                ).click()
+
+                sleep(rand_sleep2())
+                driver.find_element_by_css_selector(
+                    "div.artdeco-modal__actionbar > button[aria-label='Add a note']"
+                ).click()
                 driver.find_element_by_id("custom-message").send_keys(message)
-                driver.find_element_by_css_selector("div.artdeco-modal__actionbar > button[aria-label='Done']").click()
+
+                sleep(rand_sleep2())
+                driver.find_element_by_css_selector(
+                    "div.artdeco-modal__actionbar > button[aria-label='Done']"
+                ).click()
+
             except NoSuchElementException as e:
-                print(f"\n{link} Webpage had no connect button. Selenium can't click connect.\n{e.args[0]}\n")
-            
+                print(
+                    f"\n{link} Webpage had no connect button. Selenium can't click connect.\n{e.args[0]}\n"
+                )
+
             # write link to file of requests that have already been sent.
-            with open("personal/connect_req_sent.txt", "a") as f:
-                f.write(f'\n{link}')
-            
+            with open("connect_req_sent.txt", "a") as f:
+                f.write(f"\n{link}")
+
         driver.close()
-    
+
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
-
 
 
 if __name__ == "__main__":
@@ -122,6 +150,6 @@ if __name__ == "__main__":
         pass
         # unittest.main()
     else:
-        print('\n')
-        print('  No new students in students list!  '.center(100, '*'))
-        print('\n')
+        print("\n")
+        print("  No new students in students list!  ".center(100, "*"))
+        print("\n")
