@@ -18,7 +18,7 @@ LinkMe is a python script that leverages Selenium testing framework to help user
 If a user has a text list of LinkedIn profile URL's this script will visit each one, click the connect button, and leave a friendly message.
 A list of previously visited profiles is kept and those profiles are skipped so the same source list can be run multiple times as new
 names are added.
-Copyright (C) 2019  Richard Iannucelli
+Copyright (C) 2020  Richard Iannucelli
 This script is based off of Keeping-it-Green - Copyright (C) 2019  Subhajeet Mukherjee. https://github.com/bootkernel/Keeping-It-Green
 
 This program is free software; you can redistribute it and/or
