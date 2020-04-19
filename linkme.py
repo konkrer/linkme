@@ -60,8 +60,6 @@ with open("connect_req_sent.txt") as f:
 # Remove students that have already been sent requests.
 students = [x for x in students if x and x not in sent]
 
-print(ASCII_ART)
-
 
 class LinkMeBatch(unittest.TestCase):
     """Test Class to perform batch LinkedIn connection requests on your behalf."""
@@ -145,6 +143,8 @@ class LinkMeBatch(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    print(ASCII_ART)
+
     if students:
         unittest.main()
     else:
