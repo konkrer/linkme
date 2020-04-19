@@ -33,8 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # download chromedriver to local directory an enter local path below.
 CHROME_DRIVER_LOCATION = r""
 # LinkedIn credentials
-USERNAME = "asdasfasd"
-PASSWORD = "asdfsafd"
+USERNAME = ""
+PASSWORD = ""
 # Enter correct school or group name.
 SCHOOL = 'Springboard'
 
