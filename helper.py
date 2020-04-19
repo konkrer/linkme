@@ -39,7 +39,7 @@ def rand_sleep():
 
 def rand_sleep2():
     """Function to return random value between 3 and 8"""
-    return randrange(3, 9)
+    return randrange(2, 8)
 
 
 MESSAGE = "Hello {name}, fellow {school} student! I'm hoping to \

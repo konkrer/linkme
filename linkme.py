@@ -147,8 +147,7 @@ class LinkMeBatch(unittest.TestCase):
 
 if __name__ == "__main__":
     if students:
-        pass
-        # unittest.main()
+        unittest.main()
     else:
         print("\n")
         print("  No new students in students list!  ".center(100, "*"))
