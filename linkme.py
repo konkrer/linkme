@@ -51,7 +51,7 @@ try:
     with open("students.txt") as f:
         # read, remove Byte order mark from Google Docs, split, then strip.
         students = f.read().strip("ï»¿").splitlines()
-except FileNotFoundError as e:
+except FileNotFoundError:
     print_no_students_txt()
     raise FileNotFoundError("No students.txt file found!")
 
@@ -92,6 +92,7 @@ class LinkMeBatch(unittest.TestCase):
 
         # YOUR_PASSWORD in login_field
         driver.find_element_by_id("password").send_keys(PASSWORD)
+        sleep(rand_sleep(1))
         driver.find_element_by_css_selector(
             "div.login__form_action_container > button[type='submit']"
         ).click()
@@ -124,14 +125,11 @@ class LinkMeBatch(unittest.TestCase):
                 ).click()
 
                 sleep(rand_sleep(1))
-                driver.find_element_by_css_selector(
-                    "div.artdeco-modal__actionbar > button[aria-label='Add a note']"
-                ).click()
                 driver.find_element_by_id("custom-message").send_keys(message)
 
                 sleep(rand_sleep(1))
                 driver.find_element_by_css_selector(
-                    "div.artdeco-modal__actionbar > button[aria-label='Done']"
+                    "div.artdeco-modal__actionbar > button[aria-label='Send invitation']"
                 ).click()
 
             except NoSuchElementException as e:
@@ -155,7 +153,8 @@ if __name__ == "__main__":
 
     if students:
         unittest.main()
+        print("  Success!  ".center(100, "-"))
     else:
         print("\n")
-        print("  No new students in students list!  ".center(100, "*"))
+            
         print("\n")
