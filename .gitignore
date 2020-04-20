@@ -1,5 +1,7 @@
 .vscode
 debug.log
 linkme_2.py
+connect_req_sent.txt
+students.txt
 /chromedriver*
 /personal

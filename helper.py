@@ -2,16 +2,30 @@ import re
 from random import randrange
 
 
-def check_for_login_data(USERNAME: str, PASSWORD: str) -> None:
+def check_for_login_data(USERNAME: str, PASSWORD: str, driver: str) -> None:
     """Make sure user entered their login data."""
-    if not USERNAME or not PASSWORD:
+    if not USERNAME or not PASSWORD or not driver:
         print("\n")
         if not USERNAME:
             print("> Missing Username! <".center(40, "-"))
-        else:
+            print("\n")
+        if not USERNAME:
             print("> Missing Password! <".center(40, "-"))
-        print("\n")
-        raise ValueError("Missing Login Info!")
+            print("\n")
+        if not driver:
+            print("> Missing Chrome Driver! <".center(40, "-"))
+            print("\n")
+        raise ValueError("Missing Login Info or missing Chrome Driver info!")
+
+
+def print_no_students_txt():
+    """Print warning when no students.txt file is found."""
+    print(f"""
+
+        You must save a file of LinkedIn profile URL's as 
+        students.txt in linkme directory.
+
+        """)
 
 
 def url_check(lst):
@@ -36,8 +50,8 @@ def rand_sleep(switch):
     """Function to return random value between 2-7 when
     switch is true otherwise random value between 5-15."""
     if switch:
-        return randrange(2, 8)
-    return randrange(5, 16)
+        return randrange(2, 6)
+    return randrange(4, 9)
 
 
 MESSAGE = "Hello {name}, fellow {school} student! I'm hoping to \
@@ -47,20 +61,19 @@ with me if you are still trying to grow yours as well. Thanks! \
 
 
 ASCII_ART = r"""
-                                                                                                      
-                                                 JJ                                                   
-        000j            QLL                    CJJJ             XUU       \YY                         
-        000j            QQL                    CCJJ             UUU       YYY                         
-        000j                                   CCCC             UUUU     'YYY:                        
-        000j          QQQQQ    LLL .LLLL/      CCCC    JJJJ    -UUUU     YYYYY        YYXXX~          
-        000r          QQQQQ    LLLLLLLLLLL[    CCCC   CCJJ     JJUUUU    UUUUY      YYYYYYXXXX        
-        000j            QQQ    QLLL    LLLL    CCCC rCCC`      JJJUUU   UUUUYY     YYYY    XXXX       
-        OO0r            QQQ    QQQ      LLLL   CCCCCCCC        JJJ>JUU  UUUUUUY   YYY?      XXX`      
-        OOOr            00Q    QQQ      LLLL   CCCCCCCC       JJJJ JUU UUU  UUU   YYYYYYYYYYYYXX      
-        OOOr            000    QQQ      LLLL   CCCCCCCCC      JJJ   UUUUUU  UUU   YYYYYYYYYYYYY.      
-        OOOr            000    QQQ      LLLL   LLCC  CCCC     CCJ   JJUUU   UUUU  UUY                 
-        OOOr            000    QQQ      LLLL   LLLL   CCCC   CCCC    JJJU    UUU  UUYU      Y         
-        OOOOOOOOOOOO    000    0QQ      LLLL   LLLL    CCCC  CCC"    JJJ     UUU   UUUUUYYYYYY        
-        OOOOOOOOOOOO    000    00Q      QLLL   LLLL     CCCC CCC      JJ     UUUu    UUUUYYYY         
-                                                                                                
+
+
+                                        "                                         
+      000          LLL                JJJ           UU      YY                    
+      000           Ql                CCC          UUU     YYY                    
+      000                     U~      CCC          UUUU    UUY        ?c          
+      000         QQQQ   LLLLLLLLL    CCC  CJJ     JUUU   UUUYY    YYYYXXXXf      
+      OO0          QQQ   LLL    LLL   CCC CCC     1JJUUU  UUUYU   YYY     XX>     
+      OOO          00Q   QQQ    LLL   CCCCCC      JJJ JJ UUU UU   YYY11111YYX     
+      OOO          00Q   QQQ    LLL   CLCCCCC     JJY JJJUU  UUU  UYYYYYYYYYX     
+      OOO          000   QQQ    LLL   LLL  CCC   ?CC   JJUU  UUU  UUY             
+      OOOOOOOO00   000   QQQ    QLL   LLL   CCC  CCC   JJJ    UU  IUUUY+XYY       
+      OOOOOOOOOO   000   000    QLL   LLL    CCC CCJ    JJ    UUU   UUUUYYY       
+                                                                                  
+                                                                                                                                                                                                                                                                
 """

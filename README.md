@@ -21,8 +21,8 @@ times as new names are added.
 5. Set CHROME_DRIVER_LOCATION in linkme.py to the relative path to the chromedriver 
    file (i.e. chromedriver.exe).
 6. Set USERNAME and PASSWORD in linkme.py for your LinkedIn account.
-7. Manually download a text file of LinkedIn profile URL's and save as students.txt,
-   overwriting old file. (Clunky but works for now)
+7. Manually download a text file of LinkedIn profile URL's and save as students.txt
+   inside linkme folder, overwriting any old file. (Clunky but works for now)
 8. Run the script: python linkme.py
 9. Enjoy your new LinkedIn connections!
 

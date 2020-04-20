@@ -5,6 +5,7 @@ from time import sleep
 
 from helper import (
     check_for_login_data,
+    print_no_students_txt,
     url_check,
     MESSAGE,
     ASCII_ART,
@@ -43,19 +44,27 @@ PASSWORD = ""
 # Enter correct school or group name.
 SCHOOL = "Springboard"
 
-check_for_login_data(USERNAME, PASSWORD)
+check_for_login_data(USERNAME, PASSWORD, CHROME_DRIVER_LOCATION)
 
 # get list of students
-with open("students.txt") as f:
-    # read, remove Byte order mark from Google Docs, split, then strip.
-    students = f.read().strip("ï»¿").splitlines()
+try:
+    with open("students.txt") as f:
+        # read, remove Byte order mark from Google Docs, split, then strip.
+        students = f.read().strip("ï»¿").splitlines()
+except FileNotFoundError as e:
+    print_no_students_txt()
+    raise FileNotFoundError("No students.txt file found!")
 
 # make urls conform to standard https://www.linkedin.com/in/ pattern
 students = url_check(students)
 
 # get list of students that already have been sent requests.
-with open("connect_req_sent.txt") as f:
-    sent = f.read().splitlines()
+try:
+    with open("connect_req_sent.txt") as f:
+        sent = f.read().splitlines()
+except FileNotFoundError:
+    sent = []
+
 
 # Remove students that have already been sent requests.
 students = [x for x in students if x and x not in sent]
@@ -65,7 +74,6 @@ class LinkMeBatch(unittest.TestCase):
     """Test Class to perform batch LinkedIn connection requests on your behalf."""
 
     def setUp(self):
-
         # PATH to chromedriver
         self.driver = webdriver.Chrome(CHROME_DRIVER_LOCATION)
 
