@@ -14,13 +14,13 @@ __all__ = [
 ]
 
 
-def check_for_login_data(USERNAME: str, PASSWORD: str, driver: str) -> None:
+def check_for_login_data(username: str, password: str, driver: str) -> None:
     """Make sure user entered their login data."""
-    if not USERNAME or not PASSWORD or not driver:
-        if not USERNAME:
+    if not username or not password or not driver:
+        if not username:
             print("> Missing Username! <".center(40, "-"))
             print("\n")
-        if not USERNAME:
+        if not password:
             print("> Missing Password! <".center(40, "-"))
             print("\n")
         if not driver:
@@ -71,7 +71,7 @@ def rand_sleep(switch: int) -> int:
     return randrange(4, 9)
 
 
-def get_message():
+def get_message() -> str:
     """Function to return connection request message."""
     return "Hello {name}, fellow {school} student! I'm hoping to \
 connect with other students to grow my network. Please connect \
@@ -79,7 +79,7 @@ with me if you are still trying to grow yours as well. Thanks! \
 (sent by Python)"
 
 
-def ascii_art():
+def ascii_art() -> None:
     """Function to print ASCII LinkMe logo."""
     print(
         r"""
