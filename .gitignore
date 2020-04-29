@@ -1,7 +1,12 @@
+__pycache__/
+.DS_Store
+*.py[cod]
+*$py.class
+
 .vscode
-debug.log
-linkme_2.py
+chromedriver*
 connect_req_sent.txt
 students.txt
-/chromedriver*
-/personal
+personal/
+debug.log
+linkme_2.py

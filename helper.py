@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# helper.py -- for linkme
+
 import re
 from random import randrange
 
@@ -18,17 +21,19 @@ def check_for_login_data(USERNAME: str, PASSWORD: str, driver: str) -> None:
         raise ValueError("Missing Login Info or missing Chrome Driver info!")
 
 
-def print_no_students_txt():
+def print_no_students_txt() -> None:
     """Print warning when no students.txt file is found."""
-    print(f"""
+    print(
+        f"""
 
         You must save a file of LinkedIn profile URL's as 
         students.txt in linkme directory.
 
-        """)
+        """
+    )
 
 
-def url_check(lst):
+def url_check(lst: list) -> list:
     """Make URL's conform to standard pattern or omit from list."""
     out = []
     for url in lst:
@@ -46,9 +51,9 @@ def url_check(lst):
     return out
 
 
-def rand_sleep(switch):
-    """Function to return random value between 2-7 when
-    switch is true otherwise random value between 5-15."""
+def rand_sleep(switch: int) -> int:
+    """Function to return random value between 2-5 when
+    switch is true otherwise random value between 4-8."""
     if switch:
         return randrange(2, 6)
     return randrange(4, 9)

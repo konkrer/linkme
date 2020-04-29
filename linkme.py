@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# linkme.py
+__version__ = "0.1.0"
+
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 import unittest
@@ -156,5 +160,5 @@ if __name__ == "__main__":
         print("  Success!  ".center(100, "-"))
     else:
         print("\n")
-            
+        print("  No new students in students list!  ".center(100, "*"))
         print("\n")
