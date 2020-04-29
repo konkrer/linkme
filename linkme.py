@@ -11,11 +11,10 @@ from helper import (
     check_for_login_data,
     print_no_students_txt,
     url_check,
-    MESSAGE,
-    ASCII_ART,
+    get_message,
+    ascii_art,
     rand_sleep,
 )
-
 
 """ 
 ******************************************************************************************************************************************
@@ -47,31 +46,45 @@ USERNAME = ""
 PASSWORD = ""
 # Enter correct school or group name.
 SCHOOL = "Springboard"
-
-check_for_login_data(USERNAME, PASSWORD, CHROME_DRIVER_LOCATION)
-
-# get list of students
-try:
-    with open("students.txt") as f:
-        # read, remove Byte order mark from Google Docs, split, then strip.
-        students = f.read().strip("ï»¿").splitlines()
-except FileNotFoundError:
-    print_no_students_txt()
-    raise FileNotFoundError("No students.txt file found!")
-
-# make urls conform to standard https://www.linkedin.com/in/ pattern
-students = url_check(students)
-
-# get list of students that already have been sent requests.
-try:
-    with open("connect_req_sent.txt") as f:
-        sent = f.read().splitlines()
-except FileNotFoundError:
-    sent = []
+STUDENTS = []
 
 
-# Remove students that have already been sent requests.
-students = [x for x in students if x and x not in sent]
+def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
+    """
+    Execution logic for variables setup and running 
+    TestCase to interact with LinkedIn website.
+    """
+    ascii_art()
+    check_for_login_data(username, password, driver)
+
+    # get list of students
+    try:
+        with open("students.txt") as f:
+            # read, remove Byte order mark from Google Docs, split, then strip.
+            students = f.read().strip("ï»¿").splitlines()
+    except FileNotFoundError:
+        print_no_students_txt()
+        raise FileNotFoundError("No students.txt file found!")
+
+    # make urls conform to standard https://www.linkedin.com/in/ pattern
+    students = url_check(students)
+
+    # get list of students that already have been sent requests.
+    try:
+        with open("connect_req_sent.txt") as f:
+            sent = f.read().splitlines()
+    except FileNotFoundError:
+        sent = []
+    # Remove students that have already been sent requests.
+    global STUDENTS
+    STUDENTS = [x for x in students if x and x not in sent]
+
+    if STUDENTS:
+        unittest.main()
+    else:
+        print("  No new students in students list!  ".center(100, "*"))
+        print("\n")
+        return False
 
 
 class LinkMeBatch(unittest.TestCase):
@@ -90,11 +103,11 @@ class LinkMeBatch(unittest.TestCase):
         driver = self.driver
         driver.get("https://linkedin.com/login")
 
-        # YOUR_USERNAME in login_field
+        # enter USERNAME
         driver.find_element_by_id("username").send_keys(USERNAME)
-        driver.find_element_by_id("password").clear()
+        # driver.find_element_by_id("password").clear()
 
-        # YOUR_PASSWORD in login_field
+        # enter PASSWORD
         driver.find_element_by_id("password").send_keys(PASSWORD)
         sleep(rand_sleep(1))
         driver.find_element_by_css_selector(
@@ -112,7 +125,7 @@ class LinkMeBatch(unittest.TestCase):
             raise ValueError("Login credentials error.")
 
         # Send connect request to students.
-        for link in students:
+        for link in STUDENTS:
             sleep(rand_sleep(0))
             driver.get(link)
 
@@ -121,7 +134,7 @@ class LinkMeBatch(unittest.TestCase):
                     "ul.pv-top-card--list.inline-flex.align-items-center > li.inline.break-words"
                 ).text
                 name = name.split(" ")[0]
-                message = MESSAGE.format(name=name, school=SCHOOL)
+                message = get_message().format(name=name, school=SCHOOL)
 
                 sleep(rand_sleep(1))
                 driver.find_element_by_css_selector(
@@ -153,12 +166,4 @@ class LinkMeBatch(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    print(ASCII_ART)
-
-    if students:
-        unittest.main()
-        print("  Success!  ".center(100, "-"))
-    else:
-        print("\n")
-        print("  No new students in students list!  ".center(100, "*"))
-        print("\n")
+    main()
