@@ -59,7 +59,7 @@ def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
     try:
         check_for_login_data(username, password, driver)
     except NameError:
-        return
+        return False
 
     # get list of students
     try:
@@ -68,9 +68,9 @@ def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
             students = f.read().strip("ï»¿").splitlines()
     except FileNotFoundError:
         print_no_students_txt()
-        return
+        return False
 
-    # make urls conform to standard https://www.linkedin.com/in/ pattern
+    # make URLs conform to standard https://www.linkedin.com/in/ pattern
     students = url_check(students)
 
     # get list of students that already have been sent requests.
