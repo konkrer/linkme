@@ -55,7 +55,11 @@ def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
     TestCase to interact with LinkedIn website.
     """
     ascii_art()
-    check_for_login_data(username, password, driver)
+
+    try:
+        check_for_login_data(username, password, driver)
+    except NameError:
+        return
 
     # get list of students
     try:
@@ -64,7 +68,7 @@ def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
             students = f.read().strip("ï»¿").splitlines()
     except FileNotFoundError:
         print_no_students_txt()
-        raise FileNotFoundError("No students.txt file found!")
+        return
 
     # make urls conform to standard https://www.linkedin.com/in/ pattern
     students = url_check(students)
@@ -75,6 +79,7 @@ def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
             sent = f.read().splitlines()
     except FileNotFoundError:
         sent = []
+
     # Remove students that have already been sent requests.
     global STUDENTS
     STUDENTS = [x for x in students if x and x not in sent]
@@ -93,8 +98,6 @@ class LinkMeBatch(unittest.TestCase):
     def setUp(self):
         # PATH to chromedriver
         self.driver = webdriver.Chrome(CHROME_DRIVER_LOCATION)
-
-        # Change wait_time
         self.driver.implicitly_wait(30)
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -134,7 +137,7 @@ class LinkMeBatch(unittest.TestCase):
                     "ul.pv-top-card--list.inline-flex.align-items-center > li.inline.break-words"
                 ).text
                 name = name.split(" ")[0]
-                message = get_message().format(name=name, school=SCHOOL)
+                message = get_message(name, SCHOOL)
 
                 sleep(rand_sleep(1))
                 driver.find_element_by_css_selector(

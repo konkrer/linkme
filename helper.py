@@ -71,9 +71,9 @@ def rand_sleep(switch: int) -> int:
     return randrange(4, 9)
 
 
-def get_message() -> str:
+def get_message(name, school) -> str:
     """Function to return connection request message."""
-    return "Hello {name}, fellow {school} student! I'm hoping to \
+    return f"Hello {name}, fellow {school} student! I'm hoping to \
 connect with other students to grow my network. Please connect \
 with me if you are still trying to grow yours as well. Thanks! \
 (sent by Python)"
