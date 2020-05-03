@@ -51,13 +51,9 @@ def url_check(lst: list) -> list:
         if re.match(r"https://www.linkedin.com/in/", url):
             out.append(url)
         else:
-            if re.match(r"http://www.linkedin.com/in/", url):
-                end = url.split("//")[1]
-                out.append(f"https://{end}")
-            elif re.match(r"www.linkedin.com/in/", url):
-                out.append(f"https://{url}")
-            elif re.match(r"linkedin.com/in/", url):
-                out.append(f"https://www.{url}")
+            x = re.search(r"^(https?://)?(www.)?linkedin.com/in/(.+)$", url)
+            if x:
+                out.append(f"https://www.linkedin.com/in/{x[3]}")
     return out
 
 

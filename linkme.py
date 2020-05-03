@@ -96,7 +96,6 @@ class LinkMeBatch(unittest.TestCase):
     """Test Class to perform batch LinkedIn connection requests on your behalf."""
 
     def setUp(self):
-        # PATH to chromedriver
         self.driver = webdriver.Chrome(CHROME_DRIVER_LOCATION)
         self.driver.implicitly_wait(30)
         self.verificationErrors = []
@@ -108,7 +107,6 @@ class LinkMeBatch(unittest.TestCase):
 
         # enter USERNAME
         driver.find_element_by_id("username").send_keys(USERNAME)
-        # driver.find_element_by_id("password").clear()
 
         # enter PASSWORD
         driver.find_element_by_id("password").send_keys(PASSWORD)
@@ -144,7 +142,7 @@ class LinkMeBatch(unittest.TestCase):
                     "button.pv-s-profile-actions.pv-s-profile-actions--connect"
                 ).click()
 
-                sleep(rand_sleep(1))
+                sleep(1)
                 driver.find_element_by_id("custom-message").send_keys(message)
 
                 sleep(rand_sleep(1))

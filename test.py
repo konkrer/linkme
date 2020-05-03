@@ -23,6 +23,9 @@ class HelperTestCase(unittest.TestCase):
         result = url_check(["linkedin.com/in/q"])
         self.assertEqual(result, ["https://www.linkedin.com/in/q"])
 
+        result = url_check(["http://linkedin.com/in/q"])
+        self.assertEqual(result, ["https://www.linkedin.com/in/q"])
+
         result = url_check(["https://www.linedin.com/in/q"])
         self.assertEqual(result, [])
 
@@ -35,13 +38,14 @@ class LinkMeTestCase(unittest.TestCase):
         self.assertEqual(CHROME_DRIVER_LOCATION, "")
         self.assertFalse(main())
 
-    # @unittest.skip("Uncomment this skip if necessary")
+    # @unittest.skip("Uncomment this to skip if necessary")
     def test_check_for_no_new_students(self):
         """
         Make sure LinkedIn is not accessed if no new students in students.txt.
 
         NOTE: connect_req_sent.txt must contain all links in 
-        students.txt for this to pass. Skip if necessary.
+        students.txt for this to pass. Endless loop may result otherwise.
+        Skip if necessary.
         """
         self.assertFalse(main("x", "x", "x"))
 
