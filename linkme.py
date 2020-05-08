@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # linkme.py
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 import unittest
 from time import sleep
+import argparse
+import sys
 
 from helper import (
     check_for_login_data,
@@ -48,6 +50,21 @@ PASSWORD = ""
 SCHOOL = "Springboard"
 STUDENTS = []
 
+parser = argparse.ArgumentParser(
+    description="Connect to LinkedIn profiles automatically."
+)
+parser.add_argument(
+    "--conn-again",
+    dest="conn_again",
+    nargs="?",
+    type=bool,
+    default=False,
+    const=True,
+    help="Attempt to connect to profiles that had no connect button previously.",
+)
+args = parser.parse_args()
+sys.argv[1:] = []
+
 
 def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
     """
@@ -76,13 +93,25 @@ def main(username=USERNAME, password=PASSWORD, driver=CHROME_DRIVER_LOCATION):
     # get list of students that already have been sent requests.
     try:
         with open("connect_req_sent.txt") as f:
-            sent = f.read().splitlines()
+            sent = [x.strip() for x in f.read().splitlines() if x]
     except FileNotFoundError:
         sent = []
 
     # Remove students that have already been sent requests.
     global STUDENTS
-    STUDENTS = [x for x in students if x and x not in sent]
+    STUDENTS = [x for x in students if x not in sent]
+
+    # if --conn-again flag passed add no_connect_button list to STUDENTS
+    # to attempt to connect to those links again.
+    if args.conn_again:
+        try:
+            with open("no_connect_button.log") as f:
+                conn_agains = [x.strip() for x in f.read().splitlines() if x]
+                [STUDENTS.append(x) for x in conn_agains if x not in STUDENTS]
+            with open("no_connect_button.log", "w") as f:
+                f.write("")
+        except FileNotFoundError:
+            pass
 
     if STUDENTS:
         unittest.main()
@@ -127,33 +156,53 @@ class LinkMeBatch(unittest.TestCase):
 
         # Send connect request to students.
         for link in STUDENTS:
+            continue_ = True
             sleep(rand_sleep(0))
             driver.get(link)
+            sleep(rand_sleep(1))
 
+            # try to click connect
             try:
-                name = driver.find_element_by_css_selector(
-                    "ul.pv-top-card--list.inline-flex.align-items-center > li.inline.break-words"
-                ).text
-                name = name.split(" ")[0]
-                message = get_message(name, SCHOOL)
-
-                sleep(rand_sleep(1))
                 driver.find_element_by_css_selector(
                     "button.pv-s-profile-actions.pv-s-profile-actions--connect"
-                ).click()
-
-                sleep(1)
-                driver.find_element_by_id("custom-message").send_keys(message)
-
-                sleep(rand_sleep(1))
-                driver.find_element_by_css_selector(
-                    "div.artdeco-modal__actionbar > button[aria-label='Send invitation']"
                 ).click()
 
             except NoSuchElementException as e:
                 print(
                     f"\n{link} Webpage had no connect button. Selenium can't click connect.\n{e.args[0]}\n"
                 )
+                # if follow button present individual is out of network add to log file
+                try:
+                    driver.find_element_by_css_selector(
+                        "button.pv-s-profile-actions--follow"
+                    )
+                    with open("no_connect_button.log", "a") as f:
+                        f.write(f"\n{link}")
+                # if no follow button this is someone you are already connected to.
+                except NoSuchElementException:
+                    pass
+                continue_ = False
+
+            if continue_:
+                # find name and create message
+                name = driver.find_element_by_css_selector(
+                    "ul.pv-top-card--list.inline-flex.align-items-center > li.inline.break-words"
+                ).text
+                name = name.split(" ")[0]
+                message = get_message(name, SCHOOL)
+                sleep(1)
+                # try to send message to connnect
+                try:
+                    driver.find_element_by_id("custom-message").send_keys(message)
+                    sleep(rand_sleep(1))
+                    driver.find_element_by_css_selector(
+                        "div.artdeco-modal__actionbar > button[aria-label='Send invitation']"
+                    ).click()
+                # if no Send invitation button after clicking connect invitation is pending.
+                except NoSuchElementException as e:
+                    print(
+                        f"\n{link} Selenium unable to send message. Connection request pending.\n{e.args[0]}\n"
+                    )
 
             # write link to file of requests that have already been sent.
             with open("connect_req_sent.txt", "a") as f:

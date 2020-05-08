@@ -17,13 +17,13 @@ times as new names are added.
 2. Clone repository.
 3. Create a virtual environment and install selenium.
 4. Download chromedriver to local project directory for selenium to use.
-5. Set CHROME_DRIVER_LOCATION in linkme.py to the relative path to the chromedriver
+5. Set `CHROME_DRIVER_LOCATION` in `linkme.py` to the relative path to the chromedriver
    file (i.e. chromedriver.exe).
-6. Set USERNAME and PASSWORD in linkme.py for your LinkedIn account.
-7. Change SCHOOL in linkme.py if appropriate and customize message in helper.py if desired.
-8. Manually download a text file of LinkedIn profile URL's and save as students.txt
+6. Set `USERNAME` and `PASSWORD` in `linkme.py` for your LinkedIn account.
+7. Change SCHOOL in `linkme.py` if appropriate and customize message in `helper.py` if desired.
+8. Manually download a text file of LinkedIn profile URL's and save as `students.txt`
    inside linkme folder, overwriting any old file. (Clunky but works for now)
-9. Run the script: python linkme.py
+9. Run the script: `python linkme.py`
 10. Enjoy your new LinkedIn connections!
 
 ### Note on chromedriver:
@@ -35,8 +35,19 @@ of the driver file.
 
 For example, leave the driver in the folder it was originally in when unzipped
 and set variable:
-CHROME_DRIVER_LOCATION = r"chromedriver_win32\chromedriver.exe".
+
+    CHROME_DRIVER_LOCATION = r"chromedriver_win32\chromedriver.exe".
 
 There may be other ways to install chromedriver globally, but this method works.
+
+### Note on _out of network links_:
+
+Some of the LinkedIn profile pages this script navigates to may not have a connect button. Any links **missing
+a connect button that have a follow button** represent a person that is **out of network**. Their network of connections
+does not overlap with your network of connections. A connect button may become available later if your networks wind up
+crossing. These links will be put in a log file (`no_connect_button.log`) and you can attempt to connect to them automatically at
+a later point by running
+
+    python linkme.py --conn-again
 
 ![LinkMe logo](https://repository-images.githubusercontent.com/256674880/e5de8900-80f9-11ea-9ff4-3c3b16893bb9)
